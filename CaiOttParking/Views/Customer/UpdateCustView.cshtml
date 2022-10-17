@@ -1,0 +1,26 @@
+﻿@model Customer
+
+@{
+    //ViewData["Title"] = "CaiOtt Parking";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Edit Customer</h1>
+</div>
+<form asp-controller="Customer" asp-action="UpdateCustomer" asp-route-id=@Model.customerId method ="put">
+    <input type="hidden" asp-for="@Model.customerId"/>
+
+    <div class="mb-30">
+        <label for="inputName" class="form-label">Name</label>
+        <input type="text" asp-for=@Model.name class="form-control" id="inputName" />
+    </div>
+    <div class="mb-3">
+        <label for="inputBirth" class="form-label">Birth Date</label>
+        <input type="date" asp-for=@Model.birthDate class="form-control" id="inputBirth"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Editar</button>
+    <a class="btn btn-secondary" asp-control="Customer" asp-action="Index">Cancelar</a>
+</form>
+
+

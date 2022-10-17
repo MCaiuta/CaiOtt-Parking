@@ -1,0 +1,62 @@
+﻿@model List<Customer>
+@{
+    ViewData["Title"] = "Orders";
+}
+
+@section Scripts{
+    <script>
+        function deleteItem(id) {
+            if (confirm('Do you really want to delete it?')) {
+                var formData = new FormData();
+                formData.append("id", id);
+                $.ajax({
+                    //url: uri + '/' + id,
+                    type: 'DELETE',
+                    url: '@Url.Action("Delete/", "Customer")',
+                    //data: formData,
+                    success: function (result) {
+                        alert("Register deleted!");
+                    }
+                }
+            }
+    </script>
+}
+
+    <h1 class="display-5 text-center">Orders View</h1>
+    <div class="justify-content-lg-start">
+        <a class="btn btn-primary" id="btnCreateCustomer" asp-controller="Customer" asp-action="CreateCustView">Create Customer</a>
+    </div>
+
+    <br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Creation Date</th>
+                <th scope="col">Birth Date</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (Customer customer in Model)
+            {
+                <tr>
+                    <td>@customer.name</td>
+                    <td>@customer.creationDate</td>
+                    <td>@customer.birthDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a role="button" asp-route-id="@customer.customerId" class="btn btn-primary">View Cars</a>
+                            <a role="button" asp-controller="Customer" asp-action="UpdateCustView" asp-route-id="@customer.customerId" class="btn btn-secondary">Edit</a>
+                            <button type="button" class="btn btn-danger" onclick="deleteItem(@customer.customerId)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

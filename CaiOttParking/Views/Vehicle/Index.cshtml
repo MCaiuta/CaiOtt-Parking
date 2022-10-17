@@ -1,0 +1,65 @@
+﻿@model List<Vehicle>
+@{
+    ViewData["Title"] = "Vehicles";
+}
+
+@section Scripts{
+    <script>
+        function deleteItem(id) {
+            if (confirm('Do you really want to delete it?')) {
+                var formData = new FormData();
+                formData.append("id", id);
+                $.ajax({
+                    //url: uri + '/' + id,
+                    type: 'DELETE',
+                    url: '@Url.Action("Delete/", "Customer")',
+                    //data: formData,
+                    success: function (result) {
+                        alert("Register deleted!");
+                    }
+                }
+                    }
+    </script>
+}
+
+    <h1 class="display-5 text-center">[FULANO]'s.....Vehicles</h1>
+    <div class="justify-content-lg-start">
+        <a class="btn btn-primary" id="btnCreateVehicle" asp-controller="Vehicle" asp-action="AssignVehicleView">Assign a vehicle</a>
+    </div>
+
+    <br />
+
+     <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Vehicle ID</th>
+                <th scope="col">Brand</th>
+                <th scope="col">Color</th>
+                <th scope="col">Model</th>
+                <th scope="col">Vehicle Type</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (Vehicle vehicle in Model)
+            {
+                <tr>
+                    <td>@vehicle.vehicleId</td>
+                    <td>@vehicle.brand</td>
+                    <td>@vehicle.color</td>
+                    <td>@vehicle.model</td>
+                    <td>@(vehicle.VehicleType.Equals(1) ? "Car" :"Motorcycle")</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a role="button" asp-controller="Vehicle" asp-action="VehicleDetailsView" asp-route-id="@vehicle.vehicleId" class="btn btn-primary">View Details</a>
+                            <button type="button" class="btn btn-danger" onclick="deleteItem(@vehicle.vehicleId)">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        }
+    </tbody>
+</table>

@@ -1,0 +1,37 @@
+﻿@model Vehicle
+
+@{
+    //ViewData["Title"] = "CaiOtt Parking";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Assign Vehicle to Customer</h1>
+</div>
+
+
+    <label asp-for="VehicleType" class="col-md-2 control-label"></label>
+    <select id="TypeSelector" name="TypeSelector" class="form-select" asp-for="@Model.VehicleType" asp-items="Html.GetEnumSelectList<VehicleType>()">
+            <option selected="selected" value="">What kind of vehicle?</option>
+    </select>
+    <span asp-validation-for="VehicleType" class="text-danger" />
+
+<form asp-controller="Vehicle" asp-action="SubmitVehicle" method="post">
+    <div class="mb-3">
+        <label for="inputBrand" class="form-label">Brand</label>
+        <input type="text" asp-for=@Model.brand class="form-control" id="inputBrand" placeholder="Input brand">
+    </div>
+    <div class="mb-3">
+        <label for="inputColor" class="form-label">Color</label>
+        <input type="text" asp-for=@Model.color class="form-control" id="inputColor" />
+    </div>
+    <div class="mb-3">
+        <label for="inputModel" class="form-label">Model</label>
+        <input type="text" asp-for=@Model.model class="form-control" id="inputModel" />
+    </div>
+
+    
+    <button type="submit" class="btn btn-primary">Assign it</button>
+    <a class="btn btn-secondary" asp-control="Vehicle" asp-action="Index">Cancelar</a>
+</form>
+
+
