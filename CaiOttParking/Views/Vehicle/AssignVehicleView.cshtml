@@ -9,11 +9,11 @@
 </div>
 
 
-    <label asp-for="VehicleType" class="col-md-2 control-label"></label>
-    <select id="TypeSelector" name="TypeSelector" class="form-select" asp-for="@Model.VehicleType" asp-items="Html.GetEnumSelectList<VehicleType>()">
-            <option selected="selected" value="">What kind of vehicle?</option>
-    </select>
-    <span asp-validation-for="VehicleType" class="text-danger" />
+<select class="form-select" name="TypeSelector" id="TypeSelector">
+    <option selected>What kind of vehicle?</option>
+    <option value="1">Car</option>
+    <option value="2">Motorcycle</option>
+</select>
 
 <form asp-controller="Vehicle" asp-action="SubmitVehicle" method="post">
     <div class="mb-3">
@@ -29,9 +29,39 @@
         <input type="text" asp-for=@Model.model class="form-control" id="inputModel" />
     </div>
 
+    <div class="mb-3" id="divCar" style="display:none">
+        <label for="inputdoorQuantity" class="form-label">Door Quantity</label>
+        <input type="text" class="form-control" id="inputdoorQuantity" />
+    </div>
+
+    <div class="mb-3" id="divMotorcycle" style="display:none">
+        <label for="inputengineCylinder" class="form-label">Engine Cylinder</label>
+        <input type="text" class="form-control" id="inputengineCylinder" />
+    </div>
+
     
     <button type="submit" class="btn btn-primary">Assign it</button>
     <a class="btn btn-secondary" asp-control="Vehicle" asp-action="Index">Cancelar</a>
 </form>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+        $(document).ready(function () {
+            $('#TypeSelector').change(function () {
+                if ($(this).val() == 1){
+                    $("#divCar").show();
+                    $("#divMotorcycle").hide();
+                }
+                else if ($(this).val() == 2){
+                    $("#divCar").hide();
+                    $("#divMotorcycle").show(); 
+                } else {
+                    $("#divCar").hide();
+                    $("#divMotorcycle").hide();
+                }
+            })
+        });
+
+</script>
 
