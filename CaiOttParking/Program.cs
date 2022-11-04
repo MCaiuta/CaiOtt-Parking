@@ -13,6 +13,7 @@ builder.Services.AddDbContext<_DbContext>(x => x.UseMySql(
     ));
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IVehicleRepository, VehicleRepository>();
 
 // SWAGGER API TESTS //
 //builder.Services.AddEndpointsApiExplorer();
@@ -57,6 +58,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}");
+    pattern: "{controller=Home}/{action=Index}/{id?}/{custName?}"
+    );
 
 app.Run();

@@ -23,6 +23,13 @@ namespace CaiOttParking.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult SubmitCustomer(Customer customer)
+        {
+            _customerRepository.createCustomer(customer);
+            return RedirectToAction("Index");
+        }
+
         public IActionResult UpdateCustView(int id)
         {
             Customer customer = _customerRepository.GetCustomerById(id);
@@ -38,18 +45,10 @@ namespace CaiOttParking.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{Id}")]
-        public IActionResult Delete(int customerID)
+        //[HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
-            _customerRepository.deleteCustomer(customerID);
-            return RedirectToAction("Index");
-        }
-
-
-        [HttpPost]
-        public IActionResult SubmitCustomer(Customer customer)
-        {
-            _customerRepository.createCustomer(customer);
+            _customerRepository.deleteCustomer(id);
             return RedirectToAction("Index");
         }
     }

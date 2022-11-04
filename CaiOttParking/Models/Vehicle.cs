@@ -1,15 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CaiOttParking.Enum;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 
 namespace CaiOttParking.Models
 {
-    public enum VehicleType: int
-    {
-        Car=1,
-        Motocycle=2
-    }
-
     [Table(name:"tblVehicle")]
     public class Vehicle
     {
@@ -21,6 +16,7 @@ namespace CaiOttParking.Models
         public string color { get; set; }
         public string model { get; set; }
 
+        // Not mandatory to avoid error on Selector element on AssignVehicleView
         public VehicleType? VehicleType { get; set; }
 
 

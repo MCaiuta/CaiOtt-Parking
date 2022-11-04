@@ -16,31 +16,38 @@
 </select>
 
 <form asp-controller="Vehicle" asp-action="SubmitVehicle" method="post">
+    <input type="hidden" id="vehicleType" asp-for="@Model.VehicleType"/>
+    <input type="hidden" id="custID" asp-for="@Model.customerId" value=@ViewData["id"]/>
+
     <div class="mb-3">
         <label for="inputBrand" class="form-label">Brand</label>
         <input type="text" asp-for=@Model.brand class="form-control" id="inputBrand" placeholder="Input brand">
+    </div>
+    <div class="mb-3">
+        <label for="inputModel" class="form-label">Model</label>
+        <input type="text" asp-for=@Model.model class="form-control" id="inputModel" />
     </div>
     <div class="mb-3">
         <label for="inputColor" class="form-label">Color</label>
         <input type="text" asp-for=@Model.color class="form-control" id="inputColor" />
     </div>
     <div class="mb-3">
-        <label for="inputModel" class="form-label">Model</label>
-        <input type="text" asp-for=@Model.model class="form-control" id="inputModel" />
+        <label for="inputLicense" class="form-label">License Plate</label>
+        <input type="text" asp-for=@Model.vehicleId class="form-control" id="inputLicense" />
     </div>
 
     <div class="mb-3" id="divCar" style="display:none">
         <label for="inputdoorQuantity" class="form-label">Door Quantity</label>
-        <input type="text" class="form-control" id="inputdoorQuantity" />
+        <input type="text" asp-for=@Model.doorQuantity class="form-control" id="inputdoorQuantity" />
     </div>
 
     <div class="mb-3" id="divMotorcycle" style="display:none">
         <label for="inputengineCylinder" class="form-label">Engine Cylinder</label>
-        <input type="text" class="form-control" id="inputengineCylinder" />
+        <input type="text" asp-for=@Model.engineCylinder class ="form-control" id="inputengineCylinder" />
     </div>
 
     
-    <button type="submit" class="btn btn-primary">Assign it</button>
+    <button type="submit" id="btnAssign" class="btn btn-primary" disabled>Assign it</button>
     <a class="btn btn-secondary" asp-control="Vehicle" asp-action="Index">Cancelar</a>
 </form>
 
@@ -48,17 +55,28 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
         $(document).ready(function () {
+            //var url_array = document.URL.split('/');
+            //var id = url_array[url_array.length - 1];
+            ////document.getElementById('custID').setAttribute("value") = id;
+
+
             $('#TypeSelector').change(function () {
+                console.log("mudou");
                 if ($(this).val() == 1){
                     $("#divCar").show();
                     $("#divMotorcycle").hide();
+                    $("#btnAssign").prop("disabled", false);
+                $("#vehicleType").val($('#TypeSelector :selected').text());
                 }
                 else if ($(this).val() == 2){
                     $("#divCar").hide();
-                    $("#divMotorcycle").show(); 
+                    $("#divMotorcycle").show();
+                    $("#btnAssign").prop("disabled", false);
+                $("#vehicleType").val($('#TypeSelector :selected').text());
                 } else {
                     $("#divCar").hide();
                     $("#divMotorcycle").hide();
+                    $("#btnAssign").prop("disabled", true);
                 }
             })
         });

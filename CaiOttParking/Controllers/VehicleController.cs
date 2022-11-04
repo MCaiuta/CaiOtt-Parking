@@ -1,23 +1,41 @@
 ﻿using CaiOttParking.Models;
+using CaiOttParking.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaiOttParking.Controllers
 {
+    //[Route("Vehicle/Index")]
     public class VehicleController : Controller
     {
-        private readonly _DbContext _dbContext;
-        public VehicleController(_DbContext dbContext)
+        private readonly IVehicleRepository _vehicleRepository;
+        //private readonly ICustomerRepository _customerRepository;
+        //public VehicleController(IVehicleRepository vehicleRepository, ICustomerRepository customerRepository)
+        public VehicleController(IVehicleRepository vehicleRepository)
         {
-            _dbContext = dbContext; 
+            _vehicleRepository = vehicleRepository;
+            //_customerRepository = customerRepository;
         }
-        public IActionResult Index()
+
+        //[HttpGet("{id}/{custName}")]
+        public IActionResult Index(int id, string custName)
         {
+            ViewData["id"] = id;
+            return View(_vehicleRepository.GetAllVehicles(id));
+        }
+
+        //[HttpGet("{id}")]
+        public IActionResult AssignVehicleView(int id)
+        {
+            var vehicle = new Vehicle();
+            ViewData["id"] = id;
             return View();
         }
 
-        public IActionResult AssignVehicleView()
+        [HttpPost]
+        public IActionResult SubmitVehicle(Vehicle vehicle)
         {
-            return View();
+            _vehicleRepository.CreateVehicle(vehicle);
+            return RedirectToAction("Index");
         }
 
         public IActionResult VehicleDetailsView()
@@ -25,9 +43,11 @@ namespace CaiOttParking.Controllers
             return View();
         }
 
-        public IActionResult SubmitVehicle()
+        public IActionResult Delete(int id)
         {
-            return RedirectToAction("Index");
+            if (true) RedirectToAction("Index");
+            return BadRequest();
         }
+
     }
 }

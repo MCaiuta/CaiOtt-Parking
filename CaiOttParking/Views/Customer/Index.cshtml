@@ -31,9 +31,9 @@
                     <td>@customer.birthDate.ToString("dd/MM/yyyy")</td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a role="button" asp-controller="Vehicle" asp-action="Index" asp-route-id="@customer.customerId" class="btn btn-primary">View Cars</a>
+                            <a href="/Vehicle/Index/@customer.customerId/@customer.name" class="btn btn-primary btn-viewvehicle">View Cars</a>
                             <a role="button" asp-controller="Customer" asp-action="UpdateCustView" asp-route-id="@customer.customerId" class="btn btn-secondary">Edit</a>
-                            <button type="button" class="btn btn-danger" id="btnDelete" onclick="DeleteItem(@customer.customerId)">Delete</button>
+                            <button type="button" id="btnDelete" cust_attr = "@customer.customerId" class="btn btn-danger btn-deletar">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -43,29 +43,30 @@
     </tbody>
 </table>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
-    function DeleteItem(id) {
-        if (confirm('Do you really want to delete it?' + id)) {
-            //var formData = new FormData();
-            //formData.append("id", id);
-            $.ajax({
-                //url: uri + '/' + id,
-                type: 'DELETE',
-                url: '/Customer/Delete?id=' + id,
-                //data: formData,
-                //success: function (result) {
-                //    alert("Register deleted!");
-                //}
-            })
-        }
-        
 
-        //$(document).ready(function () {
-        //    $("#btnDelete").click(function () {
-        //        alert('Do you really want to delete it?');
-        //    });
-        //});
-    }
+        $(document).ready(function () {
+            //$('.btn-viewvehicle').on('click', function () {
+            //    $.ajax(
+            //        {
+            //            type: 'GET',
+            //            url: '/Vehicle/Index/' + $(this).attr('cust_attr') + '/' + $(this).attr('cust_name')
+            //    });
+            //})
+
+
+            $('.btn-deletar').on('click', function () {
+            if (confirm('Do you really want to delete it?')) {
+                    $.ajax(
+                        {
+                        type: 'DELETE',
+                        url: '/Customer/Delete?id=' + $(this).attr('cust_attr') 
+                        });
+                    };
+            })
+        });
+    
 </script>
 
 

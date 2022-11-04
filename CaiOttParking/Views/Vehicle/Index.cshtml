@@ -3,28 +3,10 @@
     ViewData["Title"] = "Vehicles";
 }
 
-@section Scripts{
-    <script>
-        function deleteItem(id) {
-            if (confirm('Do you really want to delete it?')) {
-                var formData = new FormData();
-                formData.append("id", id);
-                $.ajax({
-                    //url: uri + '/' + id,
-                    type: 'DELETE',
-                    url: '@Url.Action("Delete/", "Customer")',
-                    //data: formData,
-                    success: function (result) {
-                        alert("Register deleted!");
-                    }
-                }
-                    }
-    </script>
-}
-
-    <h1 class="display-5 text-center">[FULANO]'s.....Vehicles</h1>
+    <h1 id="custname" class="display-5 text-center"> </h1>
     <div class="justify-content-lg-start">
-        <a class="btn btn-primary" id="btnCreateVehicle" asp-controller="Vehicle" asp-action="AssignVehicleView">Assign a vehicle</a>
+        <h2>@ViewData["bola"]</h2>
+        <a href="/Vehicle/AssignVehicleView/@ViewData["id"]" class="btn btn-primary" id="btnCreateVehicle">Assign a vehicle</a>
     </div>
 
     <br />
@@ -50,7 +32,7 @@
                     <td>@vehicle.brand</td>
                     <td>@vehicle.color</td>
                     <td>@vehicle.model</td>
-                    <td>@(vehicle.VehicleType.Equals(1) ? "Car" :"Motorcycle")</td>
+                    <td>@vehicle.VehicleType</td>
                     <td>
                         <div class="btn-group" role="group">
                             <a role="button" asp-controller="Vehicle" asp-action="VehicleDetailsView" asp-route-id="@vehicle.vehicleId" class="btn btn-primary">View Details</a>
@@ -63,3 +45,39 @@
         }
     </tbody>
 </table>
+
+<a class="btn btn-secondary" asp-controller="Customer" asp-action="Index">Cancelar</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //Get Customer Name from URL and set it on H1 tag
+        let url_array = document.URL.split('/');
+        var custname = url_array[url_array.length - 1];
+        document.getElementById('custname').append(custname +'\'s vehicles');
+
+        //$('#btnCreateVehicle').on('click', function () {
+        //    var id = url_array[url_array.length - 2];
+            
+        //    $.ajax(
+        //        {
+        //            type: 'GET',
+        //            url: '/Vehicle/AssignVehicleView/' + id
+        //        });
+        //})
+
+        $('.btn-deletar').on('click', function () {
+            if (confirm('Do you really want to delete it?')) {
+                $.ajax(
+                    {
+                        type: 'DELETE',
+                        url: '/Vehicle/Delete?id=' + $(this).attr('customer_attr')
+                    });
+            };
+        })
+
+
+    });
+
+</script>
